@@ -80,13 +80,18 @@ class AutoencoderKL(pl.LightningModule):
             self.model_ema(self)
 
     def encode(self, x):
+        # Pass the input through the encoder to get the latent representation
         h = self.encoder(x)
+        # Apply a convolution to get the moments (mean and log variance)
         moments = self.quant_conv(h)
+        # Create a diagonal Gaussian distribution from the moments
         posterior = DiagonalGaussianDistribution(moments)
         return posterior
 
     def decode(self, z):
+        # Apply a convolution to the latent representation
         z = self.post_quant_conv(z)
+        # Pass the result through the decoder to get the reconstructed input
         dec = self.decoder(z)
         return dec
 

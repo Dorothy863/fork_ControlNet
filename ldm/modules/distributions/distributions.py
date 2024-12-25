@@ -23,6 +23,13 @@ class DiracDistribution(AbstractDistribution):
 
 class DiagonalGaussianDistribution(object):
     def __init__(self, parameters, deterministic=False):
+        """
+        Initialize the distribution with given parameters.
+
+        Args:
+            parameters (torch.Tensor): The parameters of the distribution, expected to be a tensor that can be split into mean and log variance.
+            deterministic (bool, optional): If True, the distribution will be deterministic, meaning the variance and standard deviation will be set to zero. Defaults to False.
+        """
         self.parameters = parameters
         self.mean, self.logvar = torch.chunk(parameters, 2, dim=1)
         self.logvar = torch.clamp(self.logvar, -30.0, 20.0)

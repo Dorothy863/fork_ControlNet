@@ -81,5 +81,6 @@ model:
     cond_stage_config:
       target: ldm.modules.encoders.modules.FrozenOpenCLIPEmbedder
       params:
+        version: "/workspace/open_clip_pytorch_model.bin"
         freeze: True
         layer: "penultimate"
